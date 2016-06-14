@@ -403,7 +403,7 @@ def predictions_2(data):
         
         # Remove the 'pass' statement below 
         # and write your prediction conditions here
-        if((passenger['Age'] <= 10)):
+        if((passenger['Age'] < 10)):
             predictions.append(1)
         else:
             predictions.append((passenger['Sex'] == 'female'))
@@ -424,10 +424,10 @@ predictions = predictions_2(data)
 print accuracy_score(outcomes, predictions)
 ```
 
-    Predictions have an accuracy of 79.24%.
+    Predictions have an accuracy of 79.35%.
     
 
-**Answer**: Because of the prediction of passengers younger than 10, I get a better accuracy with 79.24%.
+**Answer**: Because of the prediction of passengers younger than 10, I get a better accuracy with 79.35%.
 
 Adding the feature **Age** as a condition in conjunction with **Sex** improves the accuracy by a small margin more than with simply using the feature **Sex** alone. Now it's your turn: Find a series of features and conditions to split the data on to obtain an outcome prediction accuracy of at least 80%. This may require multiple features and multiple levels of conditional statements to succeed. You can use the same feature multiple times with different conditions.   
 **Pclass**, **Sex**, **Age**, **SibSp**, and **Parch** are some suggested features to try.
@@ -439,10 +439,15 @@ Use the `survival_stats` function below to to examine various survival statistic
 ```python
 # survival_stats(data, outcomes, 'Age', ["Sex == 'male'", "Age < 18"])
 survival_stats(data, outcomes, 'Pclass', ["Sex == 'female'", "Age > 38","Age < 60"])
+survival_stats(data, outcomes, 'Embarked', ["Sex == 'male'","Pclass == 3","Parch == 0","SibSp == 0"])
 ```
 
 
 ![png](output_27_0.png)
+
+
+
+![png](output_27_1.png)
 
 
 After exploring the survival statistics visualization, fill in the missing code below so that the function will make your prediction.  
@@ -460,14 +465,14 @@ def predictions_3(data):
         # Remove the 'pass' statement below 
         # and write your prediction conditions here
         if(passenger['Sex'] == 'female'):
-            if((passenger['Pclass'] == 3) and (passenger['Age'] >= 40) and (passenger['Age'] <= 60) ):
+            if((passenger['Pclass'] == 3) and (passenger['Age'] >= 38) and (passenger['Age'] <= 60) ):
                 predictions.append(0)
             else:
                 predictions.append(1)
         else:
             if((passenger['Age'] <= 10)):
                 predictions.append(1)
-            else:
+            else :
                 predictions.append(0)
     
     # Return our predictions
@@ -486,7 +491,7 @@ predictions = predictions_3(data)
 print accuracy_score(outcomes, predictions)
 ```
 
-    Predictions have an accuracy of 80.25%.
+    Predictions have an accuracy of 80.36%.
     
 
 **Answer**: When considering about Pclass, Socio-economic class, I found that lower-class female with age between 40 and 60 are more likely to be not surviced, while the major of female survived. So we can predict that people with "Age=(40,60), and Pclass=3" to be not survived. Thus we can get a better accuracy.
